@@ -37,22 +37,24 @@ export default function Approach() {
               </p>
               <p className="text-foreground/80 leading-relaxed">
                 Above all, I want you to feel truly cared for, heard, and valued during our time together. If, at the end of a session, 
-                you don't feel that way, then I want to know—because something has gone wrong. My priority is to get it right for you, 
-                and if I'm not the best fit, I'll gladly connect you with a trusted therapist in my network who can better meet your needs.
+                you don&apos;t feel that way, then I want to know—because something has gone wrong. My priority is to get it right for you, 
+                and if I&apos;m not the best fit, I&apos;ll gladly connect you with a trusted therapist in my network who can better meet your needs.
               </p>
               <button 
                 onClick={showLocation}
                 className="px-6 py-3 rounded-lg transition-all duration-300 font-medium text-white cursor-pointer hover:transform hover:-translate-y-1"
                 style={{backgroundColor: 'var(--button-primary)', boxShadow: '0 3px 10px rgba(122, 140, 168, 0.3)'}}
                 onMouseOver={(e) => {
-                  e.target.style.backgroundColor = 'var(--button-primary-hover)';
-                  e.target.style.transform = 'translateY(-4px)';
-                  e.target.style.boxShadow = '0 5px 15px rgba(122, 140, 168, 0.4)';
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'var(--button-primary-hover)';
+                  target.style.transform = 'translateY(-4px)';
+                  target.style.boxShadow = '0 5px 15px rgba(122, 140, 168, 0.4)';
                 }}
                 onMouseOut={(e) => {
-                  e.target.style.backgroundColor = 'var(--button-primary)';
-                  e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 3px 10px rgba(122, 140, 168, 0.3)';
+                  const target = e.target as HTMLButtonElement;
+                  target.style.backgroundColor = 'var(--button-primary)';
+                  target.style.transform = 'translateY(0)';
+                  target.style.boxShadow = '0 3px 10px rgba(122, 140, 168, 0.3)';
                 }}
               >
                 Location

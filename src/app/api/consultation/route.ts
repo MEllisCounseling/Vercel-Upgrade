@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     console.log('Form data received:', Object.keys(formData));
     
     // Map form fields to Airtable column names
-    const airtableFields: Record<string, any> = {
+    const airtableFields: Record<string, string | boolean> = {
       'Last Name': formData.lastName,
       'First Name': formData.firstName,
       'Preferred Date': formData.preferredDate,

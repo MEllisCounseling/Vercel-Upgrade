@@ -37,7 +37,7 @@ export default function About() {
               <p>
                 After completing the necessary supervision and obtaining his Licensed Clinical Social Worker (LCSW) title, Michael joined 
                 Exhale Behavioral Health in 2019. There, he worked as an Independent Therapist until 2025, helping individuals navigate 
-                life's challenges with empathy and expertise.
+                life&apos;s challenges with empathy and expertise.
               </p>
             </div>
           </div>
@@ -46,8 +46,8 @@ export default function About() {
             <h3 className="text-xl font-semibold text-primary mb-4">Personal Life</h3>
             <p className="text-foreground/80 leading-relaxed">
               Michael married Jennifer in 2003, and together they have raised five wonderful children, who now range in age from 11 to 19. 
-              Reflecting on his family's impact, Michael shares, "My family and children take up the bulk of my time, and I am grateful 
-              for their support. They have given me invaluable experience that strengthens my ability to help others as a counselor."
+              Reflecting on his family&apos;s impact, Michael shares, &quot;My family and children take up the bulk of my time, and I am grateful 
+              for their support. They have given me invaluable experience that strengthens my ability to help others as a counselor.&quot;
             </p>
           </div>
         </div>

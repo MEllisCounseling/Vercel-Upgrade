@@ -20,7 +20,7 @@ export default function Hero() {
               Renew Your Mind, Heal Your Soul
             </h2>
             <p className="text-lg text-white/90 leading-relaxed">
-              Welcome to a therapy experience designed just for you. I'm Michael Ellis, LCSW, 
+              Welcome to a therapy experience designed just for you. I&apos;m Michael Ellis, LCSW, 
               committed to helping you broaden your perspective and discover peace and purpose 
               as you move forward in your life.
             </p>
@@ -29,14 +29,16 @@ export default function Hero() {
               className="px-8 py-3 rounded-lg transition-all duration-300 font-medium text-white cursor-pointer hover:transform hover:-translate-y-1"
               style={{backgroundColor: 'var(--button-secondary)', boxShadow: '0 5px 15px rgba(139, 111, 71, 0.5)'}}
               onMouseOver={(e) => {
-                e.target.style.backgroundColor = 'var(--button-secondary-hover)';
-                e.target.style.transform = 'translateY(-4px)';
-                e.target.style.boxShadow = '0 7px 20px rgba(139, 111, 71, 0.6)';
+                const target = e.target as HTMLButtonElement;
+                target.style.backgroundColor = 'var(--button-secondary-hover)';
+                target.style.transform = 'translateY(-4px)';
+                target.style.boxShadow = '0 7px 20px rgba(139, 111, 71, 0.6)';
               }}
               onMouseOut={(e) => {
-                e.target.style.backgroundColor = 'var(--button-secondary)';
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 5px 15px rgba(139, 111, 71, 0.5)';
+                const target = e.target as HTMLButtonElement;
+                target.style.backgroundColor = 'var(--button-secondary)';
+                target.style.transform = 'translateY(0)';
+                target.style.boxShadow = '0 5px 15px rgba(139, 111, 71, 0.5)';
               }}
             >
               Learn More

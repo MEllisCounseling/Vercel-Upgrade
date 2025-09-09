@@ -19,7 +19,7 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
     try {
       await navigator.clipboard.writeText(address);
       alert('Address copied to clipboard!');
-    } catch (err) {
+    } catch {
       alert('Failed to copy address. Please copy manually: ' + address);
     }
   };

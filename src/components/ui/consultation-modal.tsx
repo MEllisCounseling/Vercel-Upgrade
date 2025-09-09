@@ -119,7 +119,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
       } else {
         throw new Error('Failed to submit form');
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -160,7 +160,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
           {submitStatus === 'success' && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-green-700 font-medium">Thank you! Your consultation request has been submitted. We'll contact you within 24 hours to confirm your appointment.</p>
+              <p className="text-green-700 font-medium">Thank you! Your consultation request has been submitted. We&apos;ll contact you within 24 hours to confirm your appointment.</p>
             </div>
           )}
 
@@ -442,7 +442,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
               </div>
 
               <div>
-                <label htmlFor="questions" className="block text-sm font-medium text-foreground mb-1">Questions about my approach or anything else you'd like to know?</label>
+                <label htmlFor="questions" className="block text-sm font-medium text-foreground mb-1">Questions about my approach or anything else you&apos;d like to know?</label>
                 <textarea 
                   id="questions" 
                   name="questions" 

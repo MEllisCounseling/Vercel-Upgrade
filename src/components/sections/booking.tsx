@@ -30,7 +30,7 @@ export default function Booking() {
               <h3 className="text-xl font-semibold text-primary mb-4">Book Through Headway</h3>
               <p className="text-foreground/80 mb-6 leading-relaxed">
                 We partner with Headway.co for billing, insurance, and scheduling. Their team is highly responsive. 
-                If you have any questions about appointments or billing, feel free to give us a call—we'll get back to you within 24 hours.
+                If you have any questions about appointments or billing, feel free to give us a call—we&apos;ll get back to you within 24 hours.
               </p>
               <a 
                 href="https://care.headway.co/providers/michael-ellis-2?utm_source=pem&utm_medium=direct_link&utm_campaign=46377" 
@@ -45,7 +45,7 @@ export default function Booking() {
             <div className="bg-gray-50 p-8 rounded-lg shadow-md border border-gray-200 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-lg">
               <h3 className="text-xl font-semibold text-primary mb-4">Free 15-Minute Consultation</h3>
               <p className="text-foreground/80 mb-6 leading-relaxed">
-                Not sure if we're the right fit? Schedule a complimentary 15-minute consultation to meet Michael, 
+                Not sure if we&apos;re the right fit? Schedule a complimentary 15-minute consultation to meet Michael, 
                 discuss your goals, and see if his approach aligns with your needs—no commitment required.
               </p>
               <button 
