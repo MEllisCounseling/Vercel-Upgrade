@@ -48,10 +48,12 @@ export default function Hero() {
             <Image 
               src="/images/Boat_on_lake.jpg" 
               alt="Peaceful therapy environment" 
-              width={600}
-              height={480}
+              width={750}
+              height={456}
               className="rounded-lg shadow-lg"
               priority
+              fetchPriority="high"
+              sizes="(max-width: 768px) 100vw, 750px"
             />
           </div>
         </div>
