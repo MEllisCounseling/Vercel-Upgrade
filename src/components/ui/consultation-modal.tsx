@@ -37,6 +37,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [phoneError, setPhoneError] = useState('');
 
   // Get today's date in YYYY-MM-DD format
   const today = useMemo(() => {
@@ -67,6 +68,20 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     return timeMinutes < currentTimeMinutes + 120;
   };
 
+  // Validate phone number - allow numbers, spaces, dashes, parentheses, plus signs
+  const validatePhone = (phone: string): string => {
+    if (!phone) return '';
+    
+    // Check for letters or invalid characters
+    const hasInvalidChars = /[a-zA-Z]/.test(phone);
+    
+    if (hasInvalidChars) {
+      return 'Phone numbers should only contain numbers, spaces, dashes, parentheses, or plus signs';
+    }
+    
+    return '';
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -75,6 +90,11 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+
+    // Validate phone number
+    if (name === 'phone') {
+      setPhoneError(validatePhone(value));
+    }
   };
 
   const submitBookingForm = async (e: React.FormEvent) => {
@@ -92,6 +112,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
       if (response.ok) {
         setSubmitStatus('success');
+        setPhoneError('');
         setFormData({
           firstName: '',
           lastName: '',
@@ -223,8 +244,15 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.phone}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                      phoneError 
+                        ? 'border-red-300 focus:ring-red-500' 
+                        : 'border-border focus:ring-primary'
+                    }`}
                   />
+                  {phoneError && (
+                    <p className="mt-1 text-sm text-red-600">{phoneError}</p>
+                  )}
                 </div>
               </div>
 
