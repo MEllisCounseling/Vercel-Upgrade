@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  turbo: {
+    root: __dirname,
+  },
   poweredByHeader: false,
 };
 
