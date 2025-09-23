@@ -3,7 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  variable: '--font-inter',
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   title: "Winchester Therapy Services LLC - Michael Ellis, LCSW",
@@ -30,7 +36,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+      </head>
+      <body className={`${inter.variable} font-sans`}>
         {children}
         <Analytics />
       </body>

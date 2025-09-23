@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --font-inter: Inter, system-ui, sans-serif;
   --primary: #6b5b73;
   --primary-light: #8a7a94;
   --background: #f7f5f3;
@@ -33,11 +34,41 @@
   --color-button-secondary-hover: var(--button-secondary-hover);
 }
 
+html {
+  font-display: swap;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   line-height: 1.6;
   scroll-behavior: smooth;
+  font-feature-settings: 'kern' 1;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Reduce animation complexity for performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Custom scrollbar */
@@ -56,4 +87,16 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-light);
+}
+
+/* Hero CTA Button */
+.hero-cta-button {
+  background-color: var(--button-secondary);
+  box-shadow: 0 5px 15px rgba(139, 111, 71, 0.5);
+}
+
+.hero-cta-button:hover {
+  background-color: var(--button-secondary-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 7px 20px rgba(139, 111, 71, 0.6);
 }

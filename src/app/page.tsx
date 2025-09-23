@@ -1,9 +1,20 @@
+import dynamic from 'next/dynamic';
 import Navigation from '@/components/sections/navigation';
 import Hero from '@/components/sections/hero';
-import Booking from '@/components/sections/booking';
-import Approach from '@/components/sections/approach';
-import About from '@/components/sections/about';
-import Contact from '@/components/sections/contact';
+
+// Dynamically import components below the fold
+const Booking = dynamic(() => import('@/components/sections/booking'), {
+  loading: () => <div className="h-64 bg-gray-50/50" />,
+});
+const Approach = dynamic(() => import('@/components/sections/approach'), {
+  loading: () => <div className="h-64 bg-gray-50/50" />,
+});
+const About = dynamic(() => import('@/components/sections/about'), {
+  loading: () => <div className="h-64 bg-gray-50/50" />,
+});
+const Contact = dynamic(() => import('@/components/sections/contact'), {
+  loading: () => <div className="h-32 bg-gray-50/50" />,
+});
 
 export default function Home() {
   return (
