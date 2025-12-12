@@ -48,9 +48,10 @@ export default function Booking() {
                 Not sure if we&apos;re the right fit? Schedule a complimentary 15-minute consultation to meet Michael, 
                 discuss your goals, and see if his approach aligns with your needs—no commitment required.
               </p>
-              <button 
+              <button
                 onClick={showConsultationForm}
-                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-light transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg"
+                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-light transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                style={{ backgroundColor: '#5a4a62' }}
               >
                 Book Free Consultation
               </button>
