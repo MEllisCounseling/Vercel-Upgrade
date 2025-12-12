@@ -32,11 +32,14 @@ export default function Booking() {
                 We partner with Headway.co for billing, insurance, and scheduling. Their team is highly responsive. 
                 If you have any questions about appointments or billing, feel free to give us a call—we&apos;ll get back to you within 24 hours.
               </p>
-              <a 
-                href="https://care.headway.co/providers/michael-ellis-2?utm_source=pem&utm_medium=direct_link&utm_campaign=46377" 
-                target="_blank" 
+              <a
+                href="https://care.headway.co/providers/michael-ellis-2?utm_source=pem&utm_medium=direct_link&utm_campaign=46377"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-light transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg"
+                className="inline-block text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg"
+                style={{ backgroundColor: '#5a4a62' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6b5b73'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5a4a62'}
               >
                 Book via Headway
               </a>
@@ -50,8 +53,10 @@ export default function Booking() {
               </p>
               <button
                 onClick={showConsultationForm}
-                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-light transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
                 style={{ backgroundColor: '#5a4a62' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6b5b73'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5a4a62'}
               >
                 Book Free Consultation
               </button>

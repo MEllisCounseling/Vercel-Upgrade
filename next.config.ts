@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
         },
         {
           key: 'Content-Security-Policy',
-          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' vitals.vercel-insights.com va.vercel-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' vitals.vercel-insights.com va.vercel-analytics.com; frame-ancestors 'none';",
+          value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' vitals.vercel-insights.com va.vercel-analytics.com www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' vitals.vercel-insights.com va.vercel-analytics.com; frame-src 'self' www.google.com www.youtube.com; frame-ancestors 'none';",
         },
         {
           key: 'X-Frame-Options',

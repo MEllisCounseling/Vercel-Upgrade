@@ -76,13 +76,16 @@ export default function LocationModal({ isOpen, onClose }: LocationModalProps) {
           </div>
 
           <div className="flex gap-4 mb-6">
-            <button 
+            <button
               onClick={openNavigation}
-              className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light transition-colors"
+              className="text-white px-4 py-2 rounded-lg transition-colors"
+              style={{ backgroundColor: '#5a4a62' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6b5b73'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5a4a62'}
             >
               Get Directions
             </button>
-            <button 
+            <button
               onClick={copyAddress}
               className="border border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors"
             >
