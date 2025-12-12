@@ -44,18 +44,85 @@ export default function Contact() {
             <p className="text-white/90">
               Michael Ellis, LCSW | Licensed Clinical Social Worker
             </p>
-            <p className="text-white/85 text-sm">
-              Website Created by{' '}
+            <div className="flex justify-end pt-2">
               <a
-                href="https://www.weblaunchacademy.com"
+                href="https://weblaunchacademy.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-white/95 transition-colors underline font-medium"
+                style={{ display: 'inline-block', textDecoration: 'none' }}
               >
-                Web Launch Academy LLC
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    backgroundColor: '#0a1840',
+                    height: '40px',
+                    padding: '4px 12px 4px 44px',
+                    borderRadius: '6px',
+                    position: 'relative',
+                    borderLeft: '3px solid #ffdb57',
+                    transition: 'box-shadow 0.3s',
+                    cursor: 'pointer',
+                  }}
+                  onMouseOver={(e) => {
+                    const target = e.currentTarget as HTMLDivElement;
+                    target.style.boxShadow = '0 0 25px rgba(255, 219, 87, 0.8)';
+                  }}
+                  onMouseOut={(e) => {
+                    const target = e.currentTarget as HTMLDivElement;
+                    target.style.boxShadow = 'none';
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: '6px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      width: '32px',
+                      height: '32px',
+                    }}
+                  >
+                    <img
+                      src="/images/wla-logo.png"
+                      alt="Web Launch Academy Logo"
+                      width="32"
+                      height="32"
+                      style={{ borderRadius: '50%', display: 'block' }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      lineHeight: '1.2',
+                      marginLeft: '8px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: 'white',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        fontFamily: 'system-ui, -apple-system, sans-serif',
+                      }}
+                    >
+                      Built with
+                    </span>
+                    <span
+                      style={{
+                        color: '#ffdb57',
+                        fontSize: '0.75rem',
+                        fontWeight: '700',
+                        fontFamily: 'system-ui, -apple-system, sans-serif',
+                      }}
+                    >
+                      Web Launch Academy
+                    </span>
+                  </div>
+                </div>
               </a>
-              {' '}with Claude AI
-            </p>
+            </div>
           </div>
         </div>
       </div>
