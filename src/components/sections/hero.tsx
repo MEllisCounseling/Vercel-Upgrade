@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useCallback } from 'react';
 
 export default function Hero() {
-  const scrollToBooking = useCallback(() => {
-    const element = document.getElementById('booking');
+  const scrollToAbout = useCallback(() => {
+    const element = document.getElementById('about');
     element?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
@@ -26,7 +26,7 @@ export default function Hero() {
               as you move forward in your life.
             </p>
             <button
-              onClick={scrollToBooking}
+              onClick={scrollToAbout}
               className="px-8 py-3 rounded-lg transition-all duration-300 font-medium text-white cursor-pointer hover:transform hover:-translate-y-1 hero-cta-button"
             >
               Learn More
