@@ -40,21 +40,21 @@ export default function Approach() {
                 you don&apos;t feel that way, then I want to know—because something has gone wrong. My priority is to get it right for you, 
                 and if I&apos;m not the best fit, I&apos;ll gladly connect you with a trusted therapist in my network who can better meet your needs.
               </p>
-              <button 
+              <button
                 onClick={showLocation}
                 className="px-6 py-3 rounded-lg transition-all duration-300 font-medium text-white cursor-pointer hover:transform hover:-translate-y-1"
-                style={{backgroundColor: 'var(--button-primary)', boxShadow: '0 3px 10px rgba(122, 140, 168, 0.3)'}}
+                style={{ backgroundColor: '#5a4a62', boxShadow: '0 3px 10px rgba(90, 74, 98, 0.3)' }}
                 onMouseOver={(e) => {
                   const target = e.target as HTMLButtonElement;
-                  target.style.backgroundColor = 'var(--button-primary-hover)';
+                  target.style.backgroundColor = '#6b5b73';
                   target.style.transform = 'translateY(-4px)';
-                  target.style.boxShadow = '0 5px 15px rgba(122, 140, 168, 0.4)';
+                  target.style.boxShadow = '0 5px 15px rgba(90, 74, 98, 0.4)';
                 }}
                 onMouseOut={(e) => {
                   const target = e.target as HTMLButtonElement;
-                  target.style.backgroundColor = 'var(--button-primary)';
+                  target.style.backgroundColor = '#5a4a62';
                   target.style.transform = 'translateY(0)';
-                  target.style.boxShadow = '0 3px 10px rgba(122, 140, 168, 0.3)';
+                  target.style.boxShadow = '0 3px 10px rgba(90, 74, 98, 0.3)';
                 }}
               >
                 Location
