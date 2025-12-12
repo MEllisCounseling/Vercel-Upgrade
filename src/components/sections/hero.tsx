@@ -33,15 +33,15 @@ export default function Hero() {
             </button>
           </div>
           <div className="flex-1 flex justify-center">
-            <Image 
-              src="/images/Boat_on_lake.jpg" 
-              alt="Peaceful therapy environment" 
+            <Image
+              src="/images/Boat_on_lake.jpg"
+              alt="Peaceful therapy environment"
               width={750}
               height={456}
               className="rounded-lg shadow-lg"
               priority
               fetchPriority="high"
-              sizes="(max-width: 768px) 100vw, 750px"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 475px"
             />
           </div>
         </div>

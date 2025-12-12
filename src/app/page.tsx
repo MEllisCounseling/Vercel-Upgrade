@@ -18,13 +18,15 @@ const Contact = dynamic(() => import('@/components/sections/contact'), {
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <>
       <Navigation />
-      <Hero />
-      <Booking />
-      <Approach />
-      <About />
-      <Contact />
-    </div>
+      <main className="min-h-screen">
+        <Hero />
+        <Booking />
+        <Approach />
+        <About />
+        <Contact />
+      </main>
+    </>
   );
 }

@@ -38,19 +38,19 @@ export default function Contact() {
           </div>
           
           <div className="text-right space-y-3 mr-24">
-            <p className="text-white/80">
+            <p className="text-white/95">
               © {new Date().getFullYear()} Winchester Therapy Services LLC. All rights reserved.
             </p>
-            <p className="text-white/70">
+            <p className="text-white/90">
               Michael Ellis, LCSW | Licensed Clinical Social Worker
             </p>
-            <p className="text-white/60 text-sm">
+            <p className="text-white/85 text-sm">
               Website Created by{' '}
-              <a 
-                href="https://www.weblaunchacademy.com" 
-                target="_blank" 
+              <a
+                href="https://www.weblaunchacademy.com"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors underline"
+                className="text-white hover:text-white/95 transition-colors underline font-medium"
               >
                 Web Launch Academy LLC
               </a>
