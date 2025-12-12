@@ -34,7 +34,7 @@ export default function Hero() {
           </div>
           <div className="flex-1 flex justify-center">
             <Image
-              src="/images/Boat_on_lake.jpg"
+              src="/images/Boat_on_lake-optimized.jpg"
               alt="Peaceful therapy environment"
               width={750}
               height={456}

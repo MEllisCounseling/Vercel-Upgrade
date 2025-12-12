@@ -83,13 +83,16 @@ export default function Contact() {
                       height: '32px',
                     }}
                   >
-                    <img
-                      src="/images/wla-logo.png"
-                      alt="Web Launch Academy Logo"
-                      width="32"
-                      height="32"
-                      style={{ borderRadius: '50%', display: 'block' }}
-                    />
+                    <picture>
+                      <source srcSet="/images/wla-logo-small.webp" type="image/webp" />
+                      <img
+                        src="/images/wla-logo-small.png"
+                        alt="Web Launch Academy Logo"
+                        width="32"
+                        height="32"
+                        style={{ borderRadius: '50%', display: 'block' }}
+                      />
+                    </picture>
                   </div>
                   <div
                     style={{
