@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -38,17 +38,14 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [phoneError, setPhoneError] = useState('');
+  const [today, setToday] = useState('');
+  const [currentTimeMinutes, setCurrentTimeMinutes] = useState(0);
 
-  // Get today's date in YYYY-MM-DD format
-  const today = useMemo(() => {
+  // Set today's date and current time only on client side to avoid hydration mismatch
+  useEffect(() => {
     const date = new Date();
-    return date.toISOString().split('T')[0];
-  }, []);
-
-  // Get current time in minutes since midnight
-  const currentTimeMinutes = useMemo(() => {
-    const now = new Date();
-    return now.getHours() * 60 + now.getMinutes();
+    setToday(date.toISOString().split('T')[0]);
+    setCurrentTimeMinutes(date.getHours() * 60 + date.getMinutes());
   }, []);
 
   // Check if a time slot should be disabled
