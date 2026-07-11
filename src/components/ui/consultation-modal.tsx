@@ -1,6 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import BookingCalendar from '@/components/ui/booking-calendar';
+import {
+  Availability,
+  DEFAULT_SCHEDULE,
+  PRACTICE_TIMEZONE,
+  dayNameForDate,
+  generateTimeSlots,
+  nowInEastern,
+} from '@/lib/availability';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -38,31 +47,58 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [phoneError, setPhoneError] = useState('');
+  const [dateError, setDateError] = useState('');
   const [today, setToday] = useState('');
   const [currentTimeMinutes, setCurrentTimeMinutes] = useState(0);
+  const [availability, setAvailability] = useState<Availability | null>(null);
 
-  // Set today's date and current time only on client side to avoid hydration mismatch
+  // Set today's date and current time only on client side to avoid hydration
+  // mismatch. Both are computed in Eastern Time — Mike's schedule timezone.
   useEffect(() => {
-    const date = new Date();
-    setToday(date.toISOString().split('T')[0]);
-    setCurrentTimeMinutes(date.getHours() * 60 + date.getMinutes());
+    const { date, minutes } = nowInEastern();
+    setToday(date);
+    setCurrentTimeMinutes(minutes);
   }, []);
 
-  // Check if a time slot should be disabled
+  // Load Mike's weekly hours and out-of-office dates when the modal opens
+  useEffect(() => {
+    if (!isOpen || availability) return;
+    fetch('/api/availability')
+      .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((data: Availability) => setAvailability(data))
+      .catch(() => setAvailability({
+        timezone: PRACTICE_TIMEZONE,
+        schedule: DEFAULT_SCHEDULE,
+        outOfOffice: [],
+        fallback: true,
+      }));
+  }, [isOpen, availability]);
+
+  // Time slots for the selected date, from Mike's hours for that weekday
+  const dayName = formData.preferredDate ? dayNameForDate(formData.preferredDate) : null;
+  const daySchedule = dayName && availability ? availability.schedule[dayName] : null;
+  const timeSlots = daySchedule?.available && daySchedule.start && daySchedule.end
+    ? generateTimeSlots(daySchedule.start, daySchedule.end)
+    : [];
+
+  // Disable same-day slots less than 2 hours from now (Eastern Time)
   const isTimeDisabled = (timeString: string) => {
     if (formData.preferredDate !== today) return false;
-    
+
     const [time, period] = timeString.split(' ');
     const [hours, minutes] = time.split(':').map(Number);
     let hour24 = hours;
-    
+
     if (period === 'PM' && hours !== 12) hour24 += 12;
     if (period === 'AM' && hours === 12) hour24 = 0;
-    
+
     const timeMinutes = hour24 * 60 + minutes;
-    
-    // Disable if less than 2 hours from now
+
     return timeMinutes < currentTimeMinutes + 120;
+  };
+
+  const handleDateSelect = (date: string) => {
+    setFormData(prev => ({ ...prev, preferredDate: date, preferredTime: '' }));
   };
 
   // Validate phone number - allow numbers, spaces, dashes, parentheses, plus signs
@@ -96,6 +132,11 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
   const submitBookingForm = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.preferredDate || !formData.preferredTime) {
+      setDateError('Please choose a date and time for your consultation.');
+      return;
+    }
+    setDateError('');
     setIsSubmitting(true);
     
     try {
@@ -332,37 +373,36 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="preferredDate" className="block text-sm font-medium text-foreground mb-1">Preferred Date *</label>
-                  <input 
-                    type="date" 
-                    id="preferredDate" 
-                    name="preferredDate" 
-                    value={formData.preferredDate}
-                    onChange={handleInputChange}
-                    min={today}
-                    required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
+                  <span className="block text-sm font-medium text-foreground mb-1">Preferred Date *</span>
+                  {today ? (
+                    <BookingCalendar
+                      selectedDate={formData.preferredDate}
+                      onSelect={handleDateSelect}
+                      availability={availability}
+                      todayEastern={today}
+                    />
+                  ) : (
+                    <div className="border border-border rounded-md p-3 text-sm text-foreground/50">Loading calendar…</div>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="preferredTime" className="block text-sm font-medium text-foreground mb-1">Preferred Time *</label>
-                  <select 
-                    id="preferredTime" 
-                    name="preferredTime" 
+                  <label htmlFor="preferredTime" className="block text-sm font-medium text-foreground mb-1">Preferred Time (Eastern Time) *</label>
+                  <select
+                    id="preferredTime"
+                    name="preferredTime"
                     value={formData.preferredTime}
                     onChange={handleInputChange}
-                    required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required
+                    disabled={!formData.preferredDate || timeSlots.length === 0}
+                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-muted disabled:text-foreground/50"
                   >
-                    <option value="">Select preferred time</option>
-                    {[
-                      "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-                      "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
-                      "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM"
-                    ].map(time => (
-                      <option 
-                        key={time} 
-                        value={time} 
+                    <option value="">
+                      {formData.preferredDate ? 'Select preferred time' : 'Select a date first'}
+                    </option>
+                    {timeSlots.map(time => (
+                      <option
+                        key={time}
+                        value={time}
                         disabled={isTimeDisabled(time)}
                         style={isTimeDisabled(time) ? {color: '#9ca3af', backgroundColor: '#f9fafb'} : {}}
                       >
@@ -370,6 +410,14 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                       </option>
                     ))}
                   </select>
+                  {formData.preferredDate && (
+                    <p className="mt-1 text-xs text-foreground/50">
+                      Times shown are US Eastern Time (ET).
+                    </p>
+                  )}
+                  {dateError && (
+                    <p className="mt-1 text-sm text-red-600">{dateError}</p>
+                  )}
                 </div>
               </div>
             </div>
