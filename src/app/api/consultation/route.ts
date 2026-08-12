@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAvailability } from '@/lib/availability-server';
 import {
+  availableSlotsForDate,
   dayNameForDate,
-  generateTimeSlots,
   isDateOutOfOffice,
   nowInEastern,
 } from '@/lib/availability';
@@ -26,8 +26,9 @@ async function validateRequestedSlot(preferredDate: string, preferredTime: strin
   if (!day?.available || !day.start || !day.end) {
     return 'The requested date is not a working day.';
   }
-  if (!generateTimeSlots(day.start, day.end).includes(preferredTime)) {
-    return 'The requested time is outside available hours.';
+  // Working hours minus any partial-day out-of-office windows
+  if (!availableSlotsForDate(preferredDate, availability).includes(preferredTime)) {
+    return 'The requested time is not available that day.';
   }
   return null;
 }

@@ -61,6 +61,8 @@ export async function getAvailability(): Promise<Availability> {
       outOfOffice.push({
         start,
         end: typeof end === 'string' ? end : start,
+        startTime: typeof record.fields['Start Time'] === 'string' ? (record.fields['Start Time'] as string) : null,
+        endTime: typeof record.fields['End Time'] === 'string' ? (record.fields['End Time'] as string) : null,
         reason: typeof record.fields['Reason'] === 'string' ? (record.fields['Reason'] as string) : undefined,
       });
     }

@@ -6,8 +6,7 @@ import {
   Availability,
   DEFAULT_SCHEDULE,
   PRACTICE_TIMEZONE,
-  dayNameForDate,
-  generateTimeSlots,
+  availableSlotsForDate,
   nowInEastern,
 } from '@/lib/availability';
 
@@ -74,11 +73,10 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
       }));
   }, [isOpen, availability]);
 
-  // Time slots for the selected date, from Mike's hours for that weekday
-  const dayName = formData.preferredDate ? dayNameForDate(formData.preferredDate) : null;
-  const daySchedule = dayName && availability ? availability.schedule[dayName] : null;
-  const timeSlots = daySchedule?.available && daySchedule.start && daySchedule.end
-    ? generateTimeSlots(daySchedule.start, daySchedule.end)
+  // Time slots for the selected date: the weekday's hours minus any
+  // out-of-office windows (supports partial-day out of office)
+  const timeSlots = formData.preferredDate && availability
+    ? availableSlotsForDate(formData.preferredDate, availability)
     : [];
 
   // Disable same-day slots less than 2 hours from now (Eastern Time)

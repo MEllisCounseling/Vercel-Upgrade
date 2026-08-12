@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   Availability,
   dayNameForDate,
+  hasPartialOutOfOffice,
   isDateOutOfOffice,
   isDateSelectable,
 } from '@/lib/availability';
@@ -110,6 +111,8 @@ export default function BookingCalendar({
           let title: string | undefined;
           if (isOoo) {
             title = 'Out of office';
+          } else if (availability && inRange && hasPartialOutOfOffice(dateStr, availability.outOfOffice)) {
+            title = selectable ? 'Limited hours this day' : 'Out of office';
           } else if (availability && inRange && !selectable) {
             const dayName = dayNameForDate(dateStr);
             title = dayName && !availability.schedule[dayName]?.available ? 'Not available this day' : undefined;

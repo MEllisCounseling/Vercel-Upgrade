@@ -12,6 +12,10 @@ export interface DaySchedule {
 export interface OutOfOfficePeriod {
   start: string; // YYYY-MM-DD
   end: string;   // YYYY-MM-DD (inclusive)
+  // Optional partial-day window (Eastern Time). Both blank = whole day off.
+  // Only startTime = out from that time onward; only endTime = out until then.
+  startTime?: string | null; // e.g. "1:00 PM"
+  endTime?: string | null;   // e.g. "5:00 PM"
   reason?: string;
 }
 
@@ -70,8 +74,18 @@ export function generateTimeSlots(start: string, end: string): string[] {
 }
 
 // dateStr is YYYY-MM-DD; string comparison is safe for that format.
+function periodCoversDate(dateStr: string, period: OutOfOfficePeriod): boolean {
+  return Boolean(period.start && period.end && dateStr >= period.start && dateStr <= period.end);
+}
+
+// True when the entire day is blocked (an OOO period with no time window)
 export function isDateOutOfOffice(dateStr: string, outOfOffice: OutOfOfficePeriod[]): boolean {
-  return outOfOffice.some(({ start, end }) => start && end && dateStr >= start && dateStr <= end);
+  return outOfOffice.some(p => periodCoversDate(dateStr, p) && !p.startTime && !p.endTime);
+}
+
+// True when a partial-day OOO window applies to this date
+export function hasPartialOutOfOffice(dateStr: string, outOfOffice: OutOfOfficePeriod[]): boolean {
+  return outOfOffice.some(p => periodCoversDate(dateStr, p) && Boolean(p.startTime || p.endTime));
 }
 
 // Weekday name for a YYYY-MM-DD string, independent of the runtime timezone.
@@ -102,15 +116,34 @@ export function nowInEastern(): { date: string; minutes: number } {
   return { date, minutes: hour * 60 + minute };
 }
 
+// Bookable slots for a date: the weekday's working hours minus any
+// out-of-office windows. Empty when the day is off or fully blocked.
+export function availableSlotsForDate(dateStr: string, availability: Availability): string[] {
+  const dayName = dayNameForDate(dateStr);
+  const day = dayName ? availability.schedule[dayName] : null;
+  if (!day?.available || !day.start || !day.end) return [];
+
+  let slots = generateTimeSlots(day.start, day.end);
+  for (const period of availability.outOfOffice) {
+    if (!periodCoversDate(dateStr, period)) continue;
+    if (!period.startTime && !period.endTime) return [];
+    // Missing start = out from the beginning of the day; missing end = out
+    // for the rest of the day. Bounds are inclusive (conservative).
+    const blockStart = period.startTime ? parseTimeToMinutes(period.startTime) ?? -Infinity : -Infinity;
+    const blockEnd = period.endTime ? parseTimeToMinutes(period.endTime) ?? Infinity : Infinity;
+    slots = slots.filter(slot => {
+      const minutes = parseTimeToMinutes(slot);
+      return minutes !== null && (minutes < blockStart || minutes > blockEnd);
+    });
+  }
+  return slots;
+}
+
 export function isDateSelectable(
   dateStr: string,
   availability: Availability,
   todayEastern: string,
 ): boolean {
   if (dateStr < todayEastern) return false;
-  if (isDateOutOfOffice(dateStr, availability.outOfOffice)) return false;
-  const dayName = dayNameForDate(dateStr);
-  if (!dayName) return false;
-  const day = availability.schedule[dayName];
-  return Boolean(day?.available && day.start && day.end);
+  return availableSlotsForDate(dateStr, availability).length > 0;
 }
