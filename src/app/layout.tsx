@@ -1,63 +1,73 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Crimson_Pro, Albert_Sans } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const inter = Inter({
+const crimson = Crimson_Pro({
   subsets: ["latin"],
-  display: 'swap',
-  preload: true,
-  variable: '--font-inter',
-  adjustFontFallback: false,
+  display: "swap",
+  variable: "--font-crimson",
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const albert = Albert_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-albert",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Winchester Therapy Services LLC - Michael Ellis, LCSW",
-  description: "Renew Your Mind, Heal Your Soul. Professional therapy services in Winchester, VA with Michael Ellis, LCSW. Specializing in anxiety, depression, trauma, and relationship issues.",
-  metadataBase: new URL('https://www.winchestertherapyservices.org'),
+  title: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
+  description:
+    "Renew Your Mind, Heal Your Soul. Individual therapy in Winchester, VA with Michael Ellis, LCSW, in person or by telehealth. Free 15-minute consultation.",
+  metadataBase: new URL("https://www.winchestertherapyservices.org"),
   alternates: {
-    canonical: '/',
+    canonical: "/",
   },
   openGraph: {
-    title: "Winchester Therapy Services LLC - Michael Ellis, LCSW",
-    description: "Renew Your Mind, Heal Your Soul. Professional therapy services in Winchester, VA with Michael Ellis, LCSW.",
-    url: '/',
-    siteName: 'Winchester Therapy Services',
-    type: 'website',
+    title: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
+    description:
+      "Renew Your Mind, Heal Your Soul. Individual therapy in Winchester, VA with Michael Ellis, LCSW. Free 15-minute consultation.",
+    url: "/",
+    siteName: "Winchester Therapy Services",
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: "Winchester Therapy Services LLC - Michael Ellis, LCSW",
-    description: "Renew Your Mind, Heal Your Soul. Professional therapy services in Winchester, VA with Michael Ellis, LCSW.",
+    card: "summary_large_image",
+    title: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
+    description:
+      "Renew Your Mind, Heal Your Soul. Individual therapy in Winchester, VA with Michael Ellis, LCSW. Free 15-minute consultation.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#6b5b73',
+  themeColor: "#3e3346",
 };
 
 // Rendered facts only (name, address, phone, email all appear in the contact
-// section) — no invented ratings or reviews.
+// section). No invented ratings or reviews.
 const localBusinessJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'MedicalBusiness',
-  name: 'Winchester Therapy Services LLC',
-  url: 'https://www.winchestertherapyservices.org',
-  telephone: '+15404317376',
-  email: 'Michaelfellislcsw@gmail.com',
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  name: "Winchester Therapy Services LLC",
+  url: "https://www.winchestertherapyservices.org",
+  telephone: "+15404317376",
+  email: "Michaelfellislcsw@gmail.com",
   address: {
-    '@type': 'PostalAddress',
-    streetAddress: '1220 Amherst Street, Floor 2',
-    addressLocality: 'Winchester',
-    addressRegion: 'VA',
-    postalCode: '22601',
-    addressCountry: 'US',
+    "@type": "PostalAddress",
+    streetAddress: "1220 Amherst Street, Floor 2",
+    addressLocality: "Winchester",
+    addressRegion: "VA",
+    postalCode: "22601",
+    addressCountry: "US",
   },
   founder: {
-    '@type': 'Person',
-    name: 'Michael Ellis',
-    honorificSuffix: 'LCSW',
+    "@type": "Person",
+    name: "Michael Ellis",
+    honorificSuffix: "LCSW",
   },
 };
 
@@ -67,11 +77,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${crimson.variable} ${albert.variable}`}>
       <head>
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
-      <body className={`${inter.variable} font-sans`}>
+      <body className="font-sans">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}

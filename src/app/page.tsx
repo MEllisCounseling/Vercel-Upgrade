@@ -1,32 +1,32 @@
-import dynamic from 'next/dynamic';
-import Navigation from '@/components/sections/navigation';
-import Hero from '@/components/sections/hero';
-
-// Dynamically import components below the fold
-const Booking = dynamic(() => import('@/components/sections/booking'), {
-  loading: () => <div className="h-64 bg-gray-50/50" />,
-});
-const Approach = dynamic(() => import('@/components/sections/approach'), {
-  loading: () => <div className="h-64 bg-gray-50/50" />,
-});
-const About = dynamic(() => import('@/components/sections/about'), {
-  loading: () => <div className="h-64 bg-gray-50/50" />,
-});
-const Contact = dynamic(() => import('@/components/sections/contact'), {
-  loading: () => <div className="h-32 bg-gray-50/50" />,
-});
+import { ConsultationProvider } from "@/components/consultation-context";
+import Navigation from "@/components/sections/navigation";
+import Hero from "@/components/sections/hero";
+import Promise from "@/components/sections/promise";
+import Approach from "@/components/sections/approach";
+import Focus from "@/components/sections/focus";
+import Booking from "@/components/sections/booking";
+import Story from "@/components/sections/story";
+import Personal from "@/components/sections/personal";
+import Location from "@/components/sections/location";
+import Footer from "@/components/sections/footer";
+import StickyCta from "@/components/ui/sticky-cta";
 
 export default function Home() {
   return (
-    <>
+    <ConsultationProvider>
       <Navigation />
-      <main className="min-h-screen">
+      <main>
         <Hero />
-        <Booking />
+        <Promise />
         <Approach />
-        <About />
-        <Contact />
+        <Focus />
+        <Booking />
+        <Story />
+        <Personal />
+        <Location />
       </main>
-    </>
+      <Footer />
+      <StickyCta />
+    </ConsultationProvider>
   );
 }

@@ -198,42 +198,53 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-2xl font-bold text-primary">Book Your Free 15-Minute Consultation</h3>
-            <button 
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-plum-ink/70 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="consultation-title">
+      <div className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-2xl bg-parchment shadow-2xl">
+        <div className="p-6 sm:p-8">
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <p className="eyebrow text-caramel">Free 15-minute consultation</p>
+              <h3 id="consultation-title" className="mt-1 font-serif text-3xl font-medium text-plum-ink">Book your consultation</h3>
+            </div>
+            <button
+              type="button"
               onClick={onClose}
-              className="text-3xl text-foreground/60 hover:text-foreground transition-colors"
+              aria-label="Close"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-plum-ink transition-colors hover:bg-sand-light"
             >
-              ×
+              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                <path d="m5 5 10 10M15 5 5 15" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
 
-          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-blue-700 text-sm">🔒 This form is securely encrypted. No insurance information needed for free consultations.</p>
+          <div className="mb-5 flex items-start gap-3 rounded-xl border border-lake/30 bg-lake/10 p-3.5 text-sm text-lake-dark">
+            <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <rect x="4" y="9" width="12" height="8" rx="1.5" />
+              <path d="M7 9V6a3 3 0 0 1 6 0v3" strokeLinecap="round" />
+            </svg>
+            <p>Sent over a secure connection and used only to schedule your consultation. No insurance information is needed.</p>
           </div>
 
           {submitStatus === 'success' && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-green-700 font-medium">Thank you! Your consultation request has been submitted. We&apos;ll contact you within 24 hours to confirm your appointment.</p>
+            <div className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4">
+              <p className="font-medium text-green-800">Thank you! Your consultation request has been submitted. We&apos;ll contact you within 24 hours to confirm your appointment.</p>
             </div>
           )}
 
           {submitStatus === 'error' && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-700 font-medium">There was an error submitting your form. Please try again or call us directly.</p>
+            <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4">
+              <p className="font-medium text-red-800">There was an error submitting your form. Please try again or call us directly.</p>
             </div>
           )}
 
           <form onSubmit={submitBookingForm} className="space-y-6">
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-primary">Required Information</h4>
+              <h4 className="font-serif text-2xl font-medium text-plum-ink">Required information</h4>
               
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-foreground mb-1">First Name *</label>
+                  <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-plum-ink">First Name *</label>
                   <input 
                     type="text" 
                     id="firstName" 
@@ -241,11 +252,11 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.firstName}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-foreground mb-1">Last Name *</label>
+                  <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-plum-ink">Last Name *</label>
                   <input 
                     type="text" 
                     id="lastName" 
@@ -253,14 +264,14 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.lastName}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">Email Address *</label>
+                  <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-plum-ink">Email Address *</label>
                   <input 
                     type="email" 
                     id="email" 
@@ -268,11 +279,11 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.email}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1">Phone Number *</label>
+                  <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-plum-ink">Phone Number *</label>
                   <input 
                     type="tel" 
                     id="phone" 
@@ -280,21 +291,17 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.phone}
                     onChange={handleInputChange}
                     required 
-                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-                      phoneError 
-                        ? 'border-red-300 focus:ring-red-500' 
-                        : 'border-border focus:ring-primary'
-                    }`}
+                    className={`field ${phoneError ? 'field-error' : ''}`}
                   />
                   {phoneError && (
-                    <p className="mt-1 text-sm text-red-600">{phoneError}</p>
+                    <p className="mt-1.5 text-sm text-red-700">{phoneError}</p>
                   )}
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-foreground mb-1">City *</label>
+                  <label htmlFor="city" className="mb-1.5 block text-sm font-medium text-plum-ink">City *</label>
                   <input 
                     type="text" 
                     id="city" 
@@ -302,18 +309,18 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.city}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   />
                 </div>
                 <div>
-                  <label htmlFor="state" className="block text-sm font-medium text-foreground mb-1">State *</label>
+                  <label htmlFor="state" className="mb-1.5 block text-sm font-medium text-plum-ink">State *</label>
                   <select 
                     id="state" 
                     name="state" 
                     value={formData.state}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   >
                     <option value="">Select State</option>
                     <option value="VA">Virginia</option>
@@ -324,16 +331,16 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label htmlFor="gender" className="block text-sm font-medium text-foreground mb-1">Gender *</label>
+                  <label htmlFor="gender" className="mb-1.5 block text-sm font-medium text-plum-ink">Gender *</label>
                   <select 
                     id="gender" 
                     name="gender" 
                     value={formData.gender}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   >
                     <option value="">Select gender</option>
                     <option value="Male">Male</option>
@@ -343,14 +350,14 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="reasonForVisit" className="block text-sm font-medium text-foreground mb-1">What would you like to discuss? *</label>
+                  <label htmlFor="reasonForVisit" className="mb-1.5 block text-sm font-medium text-plum-ink">What would you like to discuss? *</label>
                   <select 
                     id="reasonForVisit" 
                     name="reasonForVisit" 
                     value={formData.reasonForVisit}
                     onChange={handleInputChange}
                     required 
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   >
                     <option value="">Select main area of interest</option>
                     <option value="anxiety">Anxiety</option>
@@ -369,9 +376,9 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <span className="block text-sm font-medium text-foreground mb-1">Preferred Date *</span>
+                  <span className="mb-1.5 block text-sm font-medium text-plum-ink">Preferred Date *</span>
                   {today ? (
                     <BookingCalendar
                       selectedDate={formData.preferredDate}
@@ -380,11 +387,11 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                       todayEastern={today}
                     />
                   ) : (
-                    <div className="border border-border rounded-md p-3 text-sm text-foreground/50">Loading calendar…</div>
+                    <div className="rounded-xl border border-sand bg-white p-3 text-sm text-ink-soft">Loading calendar…</div>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="preferredTime" className="block text-sm font-medium text-foreground mb-1">Preferred Time (Eastern Time) *</label>
+                  <label htmlFor="preferredTime" className="mb-1.5 block text-sm font-medium text-plum-ink">Preferred Time (Eastern Time) *</label>
                   <select
                     id="preferredTime"
                     name="preferredTime"
@@ -392,7 +399,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     onChange={handleInputChange}
                     required
                     disabled={!formData.preferredDate || timeSlots.length === 0}
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-muted disabled:text-foreground/50"
+                    className="field"
                   >
                     <option value="">
                       {formData.preferredDate ? 'Select preferred time' : 'Select a date first'}
@@ -402,41 +409,41 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                         key={time}
                         value={time}
                         disabled={isTimeDisabled(time)}
-                        style={isTimeDisabled(time) ? {color: '#9ca3af', backgroundColor: '#f9fafb'} : {}}
+                        style={isTimeDisabled(time) ? {color: '#9a9299'} : {}}
                       >
                         {time} {isTimeDisabled(time) ? '(unavailable)' : ''}
                       </option>
                     ))}
                   </select>
                   {formData.preferredDate && (
-                    <p className="mt-1 text-xs text-foreground/50">
+                    <p className="mt-1.5 text-xs text-ink-soft">
                       Times shown are US Eastern Time (ET).
                     </p>
                   )}
                   {dateError && (
-                    <p className="mt-1 text-sm text-red-600">{dateError}</p>
+                    <p className="mt-1.5 text-sm text-red-700">{dateError}</p>
                   )}
                 </div>
               </div>
             </div>
 
             {/* Optional Section */}
-            <div className="space-y-4 pt-6 border-t">
+            <div className="space-y-4 border-t border-sand pt-6">
               <div>
-                <h4 className="text-lg font-semibold text-primary">Optional but Helpful</h4>
-                <p className="text-sm text-foreground/70 mb-4">These fields help us better prepare for your consultation, but are not required.</p>
+                <h4 className="font-serif text-2xl font-medium text-plum-ink">Optional, but helpful</h4>
+                <p className="mb-4 text-sm text-ink-soft">These fields help us better prepare for your consultation, but are not required.</p>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label htmlFor="birthMonth" className="block text-sm font-medium text-foreground mb-1">Date of Birth</label>
+                  <label htmlFor="birthMonth" className="mb-1.5 block text-sm font-medium text-plum-ink">Date of Birth</label>
                   <div className="grid grid-cols-2 gap-2">
                     <select 
                       id="birthMonth" 
                       name="birthMonth" 
                       value={formData.birthMonth}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="field"
                     >
                       <option value="">Month</option>
                       <option value="01">January</option>
@@ -457,7 +464,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                       name="birthYear" 
                       value={formData.birthYear}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="field"
                     >
                       <option value="">Year</option>
                       {Array.from({ length: 80 }, (_, i) => {
@@ -470,7 +477,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="zipCode" className="block text-sm font-medium text-foreground mb-1">ZIP Code</label>
+                  <label htmlFor="zipCode" className="mb-1.5 block text-sm font-medium text-plum-ink">ZIP Code</label>
                   <input 
                     type="text" 
                     id="zipCode" 
@@ -478,13 +485,13 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     value={formData.zipCode}
                     onChange={handleInputChange}
                     placeholder="12345"
-                    className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="field"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-foreground mb-1">Address</label>
+                <label htmlFor="address" className="mb-1.5 block text-sm font-medium text-plum-ink">Address</label>
                 <input 
                   type="text" 
                   id="address" 
@@ -492,18 +499,18 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                   value={formData.address}
                   onChange={handleInputChange}
                   placeholder="Street Address"
-                  className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="field"
                 />
               </div>
 
               <div>
-                <label htmlFor="sessionFormat" className="block text-sm font-medium text-foreground mb-1">Session Format Preference</label>
+                <label htmlFor="sessionFormat" className="mb-1.5 block text-sm font-medium text-plum-ink">Session Format Preference</label>
                 <select 
                   id="sessionFormat" 
                   name="sessionFormat" 
                   value={formData.sessionFormat}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="field"
                 >
                   <option value="">Select format preference</option>
                   <option value="in-person">In-Person</option>
@@ -513,7 +520,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
               </div>
 
               <div>
-                <label htmlFor="questions" className="block text-sm font-medium text-foreground mb-1">Questions about my approach or anything else you&apos;d like to know?</label>
+                <label htmlFor="questions" className="mb-1.5 block text-sm font-medium text-plum-ink">Questions about my approach or anything else you&apos;d like to know?</label>
                 <textarea 
                   id="questions" 
                   name="questions" 
@@ -521,14 +528,14 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Questions about therapy approach, scheduling, insurance, etc..."
-                  className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary resize-vertical"
+                  className="field resize-y"
                 />
               </div>
             </div>
 
             {/* Consultation Agreement */}
-            <div className="space-y-4 pt-6 border-t">
-              <h4 className="text-lg font-semibold text-primary">Consultation Agreement</h4>
+            <div className="space-y-4 border-t border-sand pt-6">
+              <h4 className="font-serif text-2xl font-medium text-plum-ink">Consultation agreement</h4>
               
               <div className="space-y-3">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -538,9 +545,9 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     checked={formData.consultationAgreement}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 h-4 w-4 text-primary border-border rounded focus:ring-2 focus:ring-primary"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-sand accent-plum-ink"
                   />
-                  <span className="text-sm text-foreground">I understand this is a free 15-minute consultation to explore therapy options and determine if Michael Ellis, LCSW is a good fit for my needs.</span>
+                  <span className="text-sm text-ink">I understand this is a free 15-minute consultation to explore therapy options and determine if Michael Ellis, LCSW is a good fit for my needs.</span>
                 </label>
 
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -550,9 +557,9 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     checked={formData.confidentialityAgreement}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 h-4 w-4 text-primary border-border rounded focus:ring-2 focus:ring-primary"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-sand accent-plum-ink"
                   />
-                  <span className="text-sm text-foreground">I understand that my information will be kept confidential and used only for scheduling this consultation.</span>
+                  <span className="text-sm text-ink">I understand that my information will be kept confidential and used only for scheduling this consultation.</span>
                 </label>
 
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -562,27 +569,27 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                     checked={formData.contactConsent}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 h-4 w-4 text-primary border-border rounded focus:ring-2 focus:ring-primary"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-sand accent-plum-ink"
                   />
-                  <span className="text-sm text-foreground">I consent to being contacted via the methods provided above for consultation scheduling.</span>
+                  <span className="text-sm text-ink">I consent to being contacted via the methods provided above for consultation scheduling.</span>
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 pt-6 border-t">
+            <div className="flex flex-col-reverse gap-3 border-t border-sand pt-6 sm:flex-row sm:justify-end">
               <button 
                 type="button"
                 onClick={onClose}
-                className="px-6 py-3 border border-border rounded-lg text-foreground hover:bg-muted transition-colors"
+                className="btn btn-outline-plum"
               >
                 Cancel
               </button>
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-light transition-colors disabled:opacity-50"
+                className="btn btn-caramel disabled:opacity-60"
               >
-                {isSubmitting ? 'Submitting...' : 'Book Consultation'}
+                {isSubmitting ? 'Submitting…' : 'Request consultation'}
               </button>
             </div>
           </form>

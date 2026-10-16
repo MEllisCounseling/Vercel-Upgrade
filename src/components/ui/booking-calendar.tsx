@@ -64,19 +64,24 @@ export default function BookingCalendar({
     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
   ];
 
+  const navButton =
+    'flex h-9 w-9 items-center justify-center rounded-full text-plum-ink transition-colors hover:bg-sand-light disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent';
+
   return (
-    <div className="border border-border rounded-md p-3 bg-card">
-      <div className="flex items-center justify-between mb-2">
+    <div className="rounded-xl border border-sand bg-white p-3">
+      <div className="mb-2 flex items-center justify-between">
         <button
           type="button"
           onClick={() => changeMonth(-1)}
           disabled={atFirstMonth}
           aria-label="Previous month"
-          className="px-2 py-1 rounded text-foreground/70 hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed"
+          className={navButton}
         >
-          ‹
+          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="m12 4-6 6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
-        <span className="text-sm font-semibold text-foreground">
+        <span className="font-serif text-lg font-medium text-plum-ink">
           {MONTH_LABELS[view.month]} {view.year}
         </span>
         <button
@@ -84,15 +89,17 @@ export default function BookingCalendar({
           onClick={() => changeMonth(1)}
           disabled={atLastMonth}
           aria-label="Next month"
-          className="px-2 py-1 rounded text-foreground/70 hover:bg-muted disabled:opacity-30 disabled:cursor-not-allowed"
+          className={navButton}
         >
-          ›
+          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="m8 4 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
       </div>
 
       <div className="grid grid-cols-7 gap-1 text-center">
         {WEEKDAY_LABELS.map(label => (
-          <div key={label} className="text-xs font-medium text-foreground/50 py-1">
+          <div key={label} className="py-1 text-xs font-semibold uppercase tracking-wider text-ink-soft/70">
             {label}
           </div>
         ))}
@@ -125,15 +132,15 @@ export default function BookingCalendar({
               onClick={() => selectable && onSelect(dateStr)}
               disabled={!selectable}
               title={title}
-              aria-label={`${MONTH_LABELS[view.month]} ${day}${isOoo ? ' — out of office' : ''}`}
-              className={`text-sm rounded py-1.5 transition-colors ${
+              aria-label={`${MONTH_LABELS[view.month]} ${day}${isOoo ? ', out of office' : ''}`}
+              className={`rounded-lg py-1.5 text-sm transition-colors ${
                 isSelected
-                  ? 'bg-primary text-white font-semibold'
+                  ? 'bg-plum-ink font-semibold text-white'
                   : selectable
-                    ? 'text-foreground hover:bg-muted cursor-pointer'
+                    ? 'cursor-pointer text-ink hover:bg-sand-light'
                     : isOoo && inRange
-                      ? 'text-foreground/35 line-through decoration-2 cursor-not-allowed'
-                      : 'text-foreground/25 cursor-not-allowed'
+                      ? 'cursor-not-allowed text-ink/35 line-through decoration-2'
+                      : 'cursor-not-allowed text-ink/25'
               }`}
             >
               {day}
@@ -142,7 +149,7 @@ export default function BookingCalendar({
         })}
       </div>
 
-      <p className="mt-2 text-xs text-foreground/50">
+      <p className="mt-2 text-xs text-ink-soft">
         {availability
           ? 'Crossed-out dates are out of office. All times are Eastern Time (ET).'
           : 'Loading availability…'}

@@ -1,74 +1,86 @@
 'use client';
 
-import { useState } from 'react';
-import ConsultationModal from '../ui/consultation-modal';
+import { SITE } from '@/components/site';
+import { useConsultation } from '@/components/consultation-context';
 
 export default function Booking() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showConsultationForm = () => {
-    setIsModalOpen(true);
-  };
-
-  const hideConsultationForm = () => {
-    setIsModalOpen(false);
-  };
+  const { openConsultation } = useConsultation();
 
   return (
-    <>
-      <section id="booking" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">Schedule Your Appointment</h2>
-            <p className="text-lg text-foreground/80 max-w-3xl mx-auto">
-              Ready to take the next step in your healing journey? Choose your preferred way to book your appointment.
+    <section id="booking" className="bg-parchment grain">
+      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div className="max-w-2xl">
+          <p className="eyebrow text-caramel">Schedule your appointment</p>
+          <h2 className="mt-4 font-serif text-4xl font-medium text-plum-ink sm:text-5xl">
+            Two ways to <span className="italic">begin</span>.
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed text-ink-soft">
+            Ready to take the next step? Choose the path that fits where you are right now.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-12">
+          {/* Free consultation: the site's own form, live availability from Mike's calendar */}
+          <article className="relative flex flex-col overflow-hidden rounded-3xl bg-plum-ink p-8 text-white shadow-[0_40px_80px_-40px_rgba(62,51,70,0.7)] sm:p-10 lg:col-span-7">
+            <div
+              className="pointer-events-none absolute inset-0"
+              aria-hidden="true"
+              style={{ background: 'radial-gradient(22rem 18rem at 100% 0%, rgba(143,98,54,0.45), transparent 70%)' }}
+            />
+            <p className="eyebrow text-sand">Not sure yet?</p>
+            <h3 className="mt-3 font-serif text-3xl font-medium sm:text-4xl">Free 15-minute consultation</h3>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/85">
+              Not sure if we&apos;re the right fit? Schedule a complimentary 15-minute consultation to
+              meet Michael, discuss your goals, and see if his approach aligns with your needs. No
+              commitment required.
             </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-gray-50 p-8 rounded-lg shadow-md border border-gray-200 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-lg">
-              <h3 className="text-xl font-semibold text-primary mb-4">Book Through Headway</h3>
-              <p className="text-foreground/80 mb-6 leading-relaxed">
-                We partner with Headway.co for billing, insurance, and scheduling. Their team is highly responsive. 
-                If you have any questions about appointments or billing, feel free to give us a call—we&apos;ll get back to you within 24 hours.
-              </p>
-              <a
-                href="https://care.headway.co/providers/michael-ellis-2?utm_source=pem&utm_medium=direct_link&utm_campaign=46377"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg"
-                style={{ backgroundColor: '#5a4a62' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6b5b73'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5a4a62'}
-              >
-                Book via Headway
-              </a>
-            </div>
-            
-            <div className="bg-gray-50 p-8 rounded-lg shadow-md border border-gray-200 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-lg">
-              <h3 className="text-xl font-semibold text-primary mb-4">Free 15-Minute Consultation</h3>
-              <p className="text-foreground/80 mb-6 leading-relaxed">
-                Not sure if we&apos;re the right fit? Schedule a complimentary 15-minute consultation to meet Michael, 
-                discuss your goals, and see if his approach aligns with your needs—no commitment required.
-              </p>
-              <button
-                onClick={showConsultationForm}
-                className="text-white px-6 py-3 rounded-lg transition-all duration-300 font-medium cursor-pointer hover:transform hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{ backgroundColor: '#5a4a62' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6b5b73'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#5a4a62'}
-              >
-                Book Free Consultation
+            <ul className="mt-6 space-y-2.5 text-[0.95rem] text-white/80">
+              {[
+                'Pick a day and time from Michael’s current availability (Eastern Time)',
+                'In person or by telehealth, your choice',
+                'You hear back within 24 hours to confirm',
+              ].map(line => (
+                <li key={line} className="flex items-start gap-3">
+                  <svg className="mt-1.5 h-3.5 w-3.5 shrink-0 text-sand" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                    <path d="m3 8.5 3 3 7-7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {line}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8">
+              <button type="button" onClick={openConsultation} className="btn btn-caramel">
+                Book your free consultation
               </button>
             </div>
-          </div>
-        </div>
-      </section>
+          </article>
 
-      <ConsultationModal 
-        isOpen={isModalOpen} 
-        onClose={hideConsultationForm} 
-      />
-    </>
+          {/* Ongoing sessions through Headway */}
+          <article className="flex flex-col rounded-3xl border border-sand bg-cream p-8 sm:p-10 lg:col-span-5">
+            <p className="eyebrow text-caramel">Ongoing sessions</p>
+            <h3 className="mt-3 font-serif text-3xl font-medium text-plum-ink sm:text-4xl">Book through Headway</h3>
+            <p className="mt-4 leading-relaxed text-ink-soft">
+              We partner with Headway.co for billing, insurance, and scheduling. Their team is highly
+              responsive. If you have any questions about appointments or billing, feel free to give
+              us a call, we&apos;ll get back to you within 24 hours.
+            </p>
+            <div className="mt-auto pt-8">
+              <a href={SITE.headwayUrl} target="_blank" rel="noopener noreferrer" className="btn btn-plum w-full sm:w-auto">
+                Book via Headway
+                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                  <path d="M5 15 15 5M8 5h7v7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <p className="mt-5 text-sm text-ink-soft">
+                Questions first?{' '}
+                <a href={SITE.phoneHref} className="font-semibold text-plum-ink underline decoration-sand underline-offset-4 hover:decoration-caramel">
+                  Call {SITE.phoneDisplay}
+                </a>
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   );
 }

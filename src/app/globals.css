@@ -1,102 +1,172 @@
 @import "tailwindcss";
 
-:root {
-  --font-inter: Inter, system-ui, sans-serif;
-  --primary: #6b5b73;
-  --primary-light: #8a7a94;
-  --background: #f7f5f3;
-  --foreground: #4a4a4a;
-  --card: #ffffff;
-  --border: rgba(107, 91, 115, 0.2);
-  --muted: #f7f4f0;
-  --button-primary: #7a8ca8;
-  --button-primary-hover: #6b7d95;
-  --button-secondary: #8b6f47;
-  --button-secondary-hover: #7a5f3a;
-  --hero-gradient-start: #6b8db5;
-  --hero-gradient-middle: #d4c4a8;
-  --hero-gradient-end: #c8a882;
-  --approach-bg-start: #f7f4f0;
-  --approach-bg-end: #e8ddd4;
+/* Design system: see klaudius/design-decisions.md */
+@theme {
+  --color-plum-ink: #3e3346;
+  --color-plum: #6b5b73;
+  --color-mauve: #8a7a94;
+  --color-parchment: #f6f1ea;
+  --color-cream: #fdfbf7;
+  --color-sand: #d9c7ac;
+  --color-sand-light: #ece2d2;
+  --color-caramel: #8f6236;
+  --color-caramel-dark: #7a5129;
+  --color-lake: #5b7a94;
+  --color-lake-dark: #49657c;
+  --color-ink: #2b2530;
+  --color-ink-soft: #5a5260;
+
+  --font-serif: var(--font-crimson), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-albert), "Helvetica Neue", Arial, sans-serif;
 }
 
-@theme inline {
-  --color-primary: var(--primary);
-  --color-primary-light: var(--primary-light);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-border: var(--border);
-  --color-muted: var(--muted);
-  --color-button-primary: var(--button-primary);
-  --color-button-primary-hover: var(--button-primary-hover);
-  --color-button-secondary: var(--button-secondary);
-  --color-button-secondary-hover: var(--button-secondary-hover);
+html,
+body {
+  overflow-x: clip;
 }
 
 html {
-  font-display: swap;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  line-height: 1.6;
-  scroll-behavior: smooth;
-  font-feature-settings: 'kern' 1;
-  text-rendering: optimizeSpeed;
+  background: var(--color-parchment);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
-/* Performance optimizations */
-* {
-  box-sizing: border-box;
+/* Headings inherit section colour; only the face is set globally. */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif);
 }
 
-*::before,
-*::after {
-  box-sizing: border-box;
+h1, h2 {
+  letter-spacing: -0.012em;
+  line-height: 1.08;
 }
 
-/* Reduce animation complexity for performance */
+/* Fine paper grain on light sections: atmosphere without weight. */
+.grain {
+  position: relative;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.2 0 0 0 0 0.27 0 0 0 0.08 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.9rem 1.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--color-lake);
+  outline-offset: 3px;
+}
+.btn-sm {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+}
+.btn-caramel {
+  background: var(--color-caramel);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgba(143, 98, 54, 0.8);
+}
+.btn-caramel:hover {
+  background: var(--color-caramel-dark);
+  transform: translateY(-1px);
+}
+.btn-ghost-light {
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+.btn-ghost-light:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.85);
+}
+.btn-plum {
+  background: var(--color-plum-ink);
+  color: #fff;
+}
+.btn-plum:hover {
+  background: var(--color-plum);
+}
+.btn-outline-plum {
+  border: 1.5px solid var(--color-plum);
+  color: var(--color-plum-ink);
+  background: transparent;
+}
+.btn-outline-plum:hover {
+  background: var(--color-plum-ink);
+  border-color: var(--color-plum-ink);
+  color: #fff;
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-sand);
+  background: #fff;
+  padding: 0.65rem 0.8rem;
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-plum);
+  box-shadow: 0 0 0 3px rgba(107, 91, 115, 0.2);
+}
+.field:disabled {
+  background: var(--color-parchment);
+  color: var(--color-ink-soft);
+}
+.field-error {
+  border-color: #c0392b;
+}
+.field-error:focus {
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.2);
+}
+
+::selection {
+  background: var(--color-sand);
+  color: var(--color-plum-ink);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-light);
-}
-
-/* Hero CTA Button */
-.hero-cta-button {
-  background-color: var(--button-secondary);
-  box-shadow: 0 5px 15px rgba(139, 111, 71, 0.5);
-}
-
-.hero-cta-button:hover {
-  background-color: var(--button-secondary-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 7px 20px rgba(139, 111, 71, 0.6);
 }
