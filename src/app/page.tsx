@@ -1,7 +1,6 @@
 import { ConsultationProvider } from "@/components/consultation-context";
 import Navigation from "@/components/sections/navigation";
 import Hero from "@/components/sections/hero";
-import Promise from "@/components/sections/promise";
 import Approach from "@/components/sections/approach";
 import Focus from "@/components/sections/focus";
 import Booking from "@/components/sections/booking";
@@ -17,7 +16,6 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
-        <Promise />
         <Approach />
         <Focus />
         <Booking />

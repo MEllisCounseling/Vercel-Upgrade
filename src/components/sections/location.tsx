@@ -6,14 +6,10 @@ export default function Location() {
       <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-x-14">
           <div className="lg:col-span-5">
-            <p className="eyebrow text-caramel">Location and contact</p>
+            <p className="eyebrow text-caramel">Contact</p>
             <h2 className="mt-4 font-serif text-4xl font-medium text-plum-ink sm:text-5xl">
-              Second floor, <span className="italic">Amherst Street</span>.
+              Location <span className="italic">and Contact</span>
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-ink-soft">
-              Sessions are held in person at the Winchester office or by telehealth. Either way,
-              reaching Michael starts here.
-            </p>
 
             <dl className="mt-10 space-y-7">
               <div className="flex gap-5">
@@ -24,7 +20,7 @@ export default function Location() {
                   </svg>
                 </span>
                 <div>
-                  <dt className="text-sm font-semibold uppercase tracking-wider text-ink-soft">Office</dt>
+                  <dt className="text-sm font-semibold uppercase tracking-wider text-ink-soft">Location</dt>
                   <dd className="mt-1 text-lg text-plum-ink">
                     <address className="not-italic">
                       {SITE.addressLine1}

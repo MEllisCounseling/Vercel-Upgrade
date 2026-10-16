@@ -1,21 +1,10 @@
 import Image from 'next/image';
 
+// The three approaches the site names, as an index to the paragraph beside it.
 const MODALITIES = [
-  {
-    abbr: 'CBT',
-    name: 'Cognitive Behavioral Therapy',
-    note: 'Noticing the thought patterns behind how you feel and act, and practicing new ones that serve you better.',
-  },
-  {
-    abbr: 'SFBT',
-    name: 'Solution-Focused Brief Therapy',
-    note: 'Starting from what you want to be different, and the strengths you already have to get there.',
-  },
-  {
-    abbr: 'MI',
-    name: 'Motivational Interviewing',
-    note: 'Working through mixed feelings about change at your own pace, without pressure or judgment.',
-  },
+  { abbr: 'CBT', name: 'Cognitive Behavioral Therapy' },
+  { abbr: 'SFBT', name: 'Solution-Focused Brief Therapy' },
+  { abbr: 'MI', name: 'Motivational Interviewing' },
 ];
 
 export default function Approach() {
@@ -44,9 +33,9 @@ export default function Approach() {
           </div>
 
           <div className="lg:col-span-7">
-            <p className="eyebrow text-caramel">My counseling approach</p>
+            <p className="eyebrow text-caramel">Approach</p>
             <h2 className="mt-4 font-serif text-4xl font-medium text-plum-ink sm:text-5xl">
-              Practical tools, held together by <span className="italic">genuine care</span>.
+              My Counseling <span className="italic">Approach</span>
             </h2>
             <div className="mt-7 space-y-5 text-lg leading-relaxed text-ink-soft">
               <p>
@@ -65,12 +54,9 @@ export default function Approach() {
 
             <ul className="mt-10 divide-y divide-sand border-y border-sand">
               {MODALITIES.map(m => (
-                <li key={m.abbr} className="grid gap-2 py-5 sm:grid-cols-[5rem_1fr] sm:gap-6">
+                <li key={m.abbr} className="grid items-baseline gap-1 py-4 sm:grid-cols-[5rem_1fr] sm:gap-6">
                   <span className="font-serif text-3xl font-medium text-caramel">{m.abbr}</span>
-                  <div>
-                    <h3 className="text-base font-semibold text-plum-ink">{m.name}</h3>
-                    <p className="mt-1 text-[0.95rem] leading-relaxed text-ink-soft">{m.note}</p>
-                  </div>
+                  <span className="text-base font-semibold text-plum-ink">{m.name}</span>
                 </li>
               ))}
             </ul>

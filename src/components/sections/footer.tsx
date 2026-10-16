@@ -1,4 +1,5 @@
-import { NAV_LINKS, SITE } from '@/components/site';
+import Link from 'next/link';
+import { LEGAL_LINKS, NAV_LINKS, SITE } from '@/components/site';
 
 export default function Footer() {
   return (
@@ -15,9 +16,9 @@ export default function Footer() {
             <ul className="mt-4 space-y-2.5">
               {NAV_LINKS.map(link => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-white/85 transition-colors hover:text-sand">
+                  <Link href={link.href} className="text-white/85 transition-colors hover:text-sand">
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -45,18 +46,34 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-white/15 pt-6 text-sm text-white/70 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            &copy; {new Date().getFullYear()} {SITE.name}. All rights reserved. Michael Ellis, LCSW,
-            Licensed Clinical Social Worker.
-          </p>
-          <a
-            href={SITE.referralUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:opacity-80"
-          >
-            Built with Web Launch Academy
-          </a>
+          <div className="space-y-1.5">
+            <p>&copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
+            <p>Michael Ellis, LCSW | Licensed Clinical Social Worker</p>
+          </div>
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {LEGAL_LINKS.map(link => (
+              <li key={link.href}>
+                <Link href={link.href} className="underline underline-offset-4 hover:text-sand">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/#contact" className="underline underline-offset-4 hover:text-sand">
+                Contact
+              </Link>
+            </li>
+            <li>
+              <a
+                href={SITE.referralUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:opacity-80"
+              >
+                Built with Web Launch Academy
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>

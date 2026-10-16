@@ -195,6 +195,16 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     };
   }, [isOpen]);
 
+  // Escape closes the dialog, as the X and Cancel buttons do.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
@@ -204,7 +214,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
           <div className="mb-6 flex items-start justify-between gap-4">
             <div>
               <p className="eyebrow text-caramel">Free 15-minute consultation</p>
-              <h3 id="consultation-title" className="mt-1 font-serif text-3xl font-medium text-plum-ink">Book your consultation</h3>
+              <h3 id="consultation-title" className="mt-1 font-serif text-3xl font-medium text-plum-ink">Book Your Free 15-Minute Consultation</h3>
             </div>
             <button
               type="button"
@@ -223,7 +233,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
               <rect x="4" y="9" width="12" height="8" rx="1.5" />
               <path d="M7 9V6a3 3 0 0 1 6 0v3" strokeLinecap="round" />
             </svg>
-            <p>Sent over a secure connection and used only to schedule your consultation. No insurance information is needed.</p>
+            <p>This form is sent over a secure connection. No insurance information needed for free consultations.</p>
           </div>
 
           {submitStatus === 'success' && (
@@ -240,7 +250,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
           <form onSubmit={submitBookingForm} className="space-y-6">
             <div className="space-y-4">
-              <h4 className="font-serif text-2xl font-medium text-plum-ink">Required information</h4>
+              <h4 className="font-serif text-2xl font-medium text-plum-ink">Required Information</h4>
               
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
@@ -430,7 +440,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
             {/* Optional Section */}
             <div className="space-y-4 border-t border-sand pt-6">
               <div>
-                <h4 className="font-serif text-2xl font-medium text-plum-ink">Optional, but helpful</h4>
+                <h4 className="font-serif text-2xl font-medium text-plum-ink">Optional but Helpful</h4>
                 <p className="mb-4 text-sm text-ink-soft">These fields help us better prepare for your consultation, but are not required.</p>
               </div>
               
@@ -535,7 +545,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
 
             {/* Consultation Agreement */}
             <div className="space-y-4 border-t border-sand pt-6">
-              <h4 className="font-serif text-2xl font-medium text-plum-ink">Consultation agreement</h4>
+              <h4 className="font-serif text-2xl font-medium text-plum-ink">Consultation Agreement</h4>
               
               <div className="space-y-3">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -589,7 +599,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                 disabled={isSubmitting}
                 className="btn btn-caramel disabled:opacity-60"
               >
-                {isSubmitting ? 'Submitting…' : 'Request consultation'}
+                {isSubmitting ? 'Submitting…' : 'Book Consultation'}
               </button>
             </div>
           </form>

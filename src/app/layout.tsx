@@ -20,9 +20,12 @@ const albert = Albert_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
+  title: {
+    default: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
+    template: "%s | Winchester Therapy Services LLC",
+  },
   description:
-    "Renew Your Mind, Heal Your Soul. Individual therapy in Winchester, VA with Michael Ellis, LCSW, in person or by telehealth. Free 15-minute consultation.",
+    "Renew Your Mind, Heal Your Soul. Professional therapy services in Winchester, VA with Michael Ellis, LCSW. Specializing in anxiety, depression, trauma, and relationship issues.",
   metadataBase: new URL("https://www.winchestertherapyservices.org"),
   alternates: {
     canonical: "/",
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
     description:
-      "Renew Your Mind, Heal Your Soul. Individual therapy in Winchester, VA with Michael Ellis, LCSW. Free 15-minute consultation.",
+      "Renew Your Mind, Heal Your Soul. Professional therapy services in Winchester, VA with Michael Ellis, LCSW.",
     url: "/",
     siteName: "Winchester Therapy Services",
     type: "website",
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Winchester Therapy Services LLC | Michael Ellis, LCSW",
     description:
-      "Renew Your Mind, Heal Your Soul. Individual therapy in Winchester, VA with Michael Ellis, LCSW. Free 15-minute consultation.",
+      "Renew Your Mind, Heal Your Soul. Professional therapy services in Winchester, VA with Michael Ellis, LCSW.",
   },
 };
 

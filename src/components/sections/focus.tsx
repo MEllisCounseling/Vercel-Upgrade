@@ -2,19 +2,19 @@
 
 import { useConsultation } from '@/components/consultation-context';
 
-// The concerns the practice's own intake form lists, in its order.
+// The concerns the practice's own consultation form lists, in its order.
 const AREAS = [
   'Anxiety',
   'Depression',
-  'Relationship issues',
-  'Trauma and PTSD',
-  'Grief and loss',
-  'Stress management',
-  'Life transitions',
-  'Family issues',
-  'Work and career',
-  'Self-esteem',
-  'Just exploring therapy',
+  'Relationship Issues',
+  'Trauma/PTSD',
+  'Grief/Loss',
+  'Stress Management',
+  'Life Transitions',
+  'Family Issues',
+  'Work/Career Issues',
+  'Self-Esteem',
+  'Just exploring therapy options',
 ];
 
 export default function Focus() {
@@ -35,14 +35,15 @@ export default function Focus() {
           <div className="lg:col-span-5">
             <p className="eyebrow text-sand">Areas of focus</p>
             <h2 className="mt-4 font-serif text-4xl font-medium sm:text-5xl">
-              Whatever brings you in, the first step is the <span className="italic text-sand">same</span>.
+              What would you like to <span className="italic text-sand">discuss</span>?
             </h2>
             <p className="mt-6 max-w-md text-lg leading-relaxed text-white/80">
-              A short, unhurried conversation to understand what you are facing and whether this is
-              the right place to work on it.
+              Not sure if we&apos;re the right fit? Schedule a complimentary 15-minute consultation
+              to meet Michael, discuss your goals, and see if his approach aligns with your needs.
+              No commitment required.
             </p>
             <button type="button" onClick={openConsultation} className="btn btn-caramel mt-8">
-              Start with a free consultation
+              Book Free Consultation
             </button>
           </div>
           <ul className="flex flex-wrap content-start gap-3 lg:col-span-7 lg:pt-3">

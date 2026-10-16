@@ -47,7 +47,7 @@ export default function StickyCta() {
         className="flex items-center justify-center bg-caramel py-4 text-sm font-semibold text-white"
         tabIndex={heroVisible ? -1 : 0}
       >
-        Free consultation
+        Free Consultation
       </button>
     </div>
   );

@@ -83,9 +83,18 @@ h1, h2 {
   cursor: pointer;
   transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
-.btn:focus-visible {
+.btn:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
   outline: 3px solid var(--color-lake);
   outline-offset: 3px;
+}
+.field:focus-visible {
+  outline-offset: 1px;
 }
 .btn-sm {
   padding: 0.75rem 1.25rem;
@@ -169,4 +178,43 @@ h1, h2 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Long-form legal pages: one readable column, serif section headings. */
+.legal h2 {
+  margin-top: 2.75rem;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--color-plum-ink);
+}
+.legal h2:first-child {
+  margin-top: 0;
+}
+.legal p,
+.legal li {
+  margin-top: 0.9rem;
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+}
+.legal ul {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.legal li {
+  margin-top: 0.4rem;
+  padding-left: 0.25rem;
+}
+.legal strong {
+  color: var(--color-plum-ink);
+  font-weight: 600;
+}
+.legal a {
+  color: var(--color-plum-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-sand);
+  text-underline-offset: 4px;
+}
+.legal a:hover {
+  text-decoration-color: var(--color-caramel);
 }

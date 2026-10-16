@@ -23,10 +23,16 @@ export const SITE = {
   referralUrl: 'https://www.weblaunchacademy.com/?ref=YMQMF83P',
 } as const;
 
+// Root-relative so the links also work from /privacy and /terms.
 export const NAV_LINKS = [
-  { href: '#approach', label: 'Approach' },
-  { href: '#focus', label: 'Areas of focus' },
-  { href: '#booking', label: 'Booking' },
-  { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/#booking', label: 'Booking' },
+  { href: '/#approach', label: 'Approach' },
+  { href: '/#focus', label: 'Areas of focus' },
+  { href: '/#about', label: 'About' },
+  { href: '/#contact', label: 'Contact' },
+] as const;
+
+export const LEGAL_LINKS = [
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/terms', label: 'Terms of Service' },
 ] as const;

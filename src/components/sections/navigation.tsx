@@ -1,16 +1,18 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { NAV_LINKS, SITE } from '@/components/site';
 import { useConsultation } from '@/components/consultation-context';
 
-export default function Navigation() {
+export default function Navigation({ solid = false }: { solid?: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const scrolled = solid || hasScrolled;
   const { openConsultation } = useConsultation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setHasScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -27,7 +29,7 @@ export default function Navigation() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8" aria-label="Main">
-        <a href="#home" onClick={closeMenu} className="group flex flex-col leading-none">
+        <Link href="/#home" onClick={closeMenu} className="group flex flex-col leading-none">
           <span
             className={`font-serif text-xl font-semibold tracking-tight transition-colors sm:text-2xl ${
               scrolled || isMenuOpen ? 'text-plum-ink' : 'text-white'
@@ -42,19 +44,19 @@ export default function Navigation() {
           >
             {SITE.clinician}
           </span>
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-7 lg:flex">
           {NAV_LINKS.map(link => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   scrolled ? 'text-ink-soft hover:text-plum-ink' : 'text-white/85 hover:text-white'
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -69,7 +71,7 @@ export default function Navigation() {
             {SITE.phoneDisplay}
           </a>
           <button type="button" onClick={openConsultation} className="btn btn-caramel btn-sm">
-            Free consultation
+            Free Consultation
           </button>
         </div>
 
@@ -101,13 +103,13 @@ export default function Navigation() {
           <ul className="flex flex-col">
             {NAV_LINKS.map(link => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   onClick={closeMenu}
                   className="block border-b border-sand/60 py-3.5 font-serif text-xl text-plum-ink"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -120,7 +122,7 @@ export default function Navigation() {
               }}
               className="btn btn-caramel w-full"
             >
-              Book a free consultation
+              Book Free Consultation
             </button>
             <a href={SITE.phoneHref} className="btn btn-outline-plum w-full">
               Call {SITE.phoneDisplay}
