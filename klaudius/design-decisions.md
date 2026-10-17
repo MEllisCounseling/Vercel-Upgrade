@@ -70,3 +70,9 @@ security headers, Vercel analytics.
 - **Legal pages:** `/privacy` and `/terms` were added, linked from the footer and the sitemap, with a shared solid-header frame (`src/components/legal-page.tsx`). They describe what the site actually does: the consultation form fields, Airtable storage, Vercel analytics without cookies, the Google Maps embed, and that sessions, billing and insurance run through Headway under its own privacy policy and HIPAA safeguards. They do not claim HIPAA compliance for the website itself; the clinical Notice of Privacy Practices is given at intake. Effective date October 16, 2026; the owner should read both before launch.
 - **Navigation:** links are root-relative (`/#booking`) so they work from the legal pages; the header renders solid on pages without a hero.
 - **Dependencies:** `npm audit fix` (non-breaking) was applied on the branch: 17 advisories down to 8; the remaining 8 need major upgrades (next, sharp) and are the same on `main`.
+
+## Revision 2026-10-16 (third pass): booking rules, per the owner's representative
+
+- **12-hour lead time.** `MIN_LEAD_MINUTES` in `src/lib/availability.ts`; `bookableSlotsForDate` / `isSlotBookable` / `earliestBookableMoment` apply it. The calendar greys out days with no bookable slot left, the time list only shows bookable times, and `POST /api/consultation` rejects anything sooner with a 400 (enforced even when Airtable is unreachable). Replaces the old same-day two-hour rule.
+- **Call-us notice** under the date and time pickers: if no time works, or a cancellation or reschedule falls within 24 hours, call (540) 431-7376.
+- **Session Format Preference is required.** Moved from "Optional but Helpful" into the required section, `required` on the select (same browser nudge as every other required field), a JS-side check before submit, and a server-side check that the value is one of in-person, telehealth, either. Airtable receives the same `Session Format` column as before.

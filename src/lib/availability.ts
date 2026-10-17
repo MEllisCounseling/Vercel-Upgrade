@@ -3,6 +3,11 @@
 
 export const PRACTICE_TIMEZONE = 'America/New_York';
 
+// Consultations must be requested at least this far ahead (12 hours).
+// Anything sooner is handled by phone.
+export const MIN_LEAD_MINUTES = 12 * 60;
+export const SESSION_FORMATS = ['in-person', 'telehealth', 'either'] as const;
+
 export interface DaySchedule {
   available: boolean;
   start: string | null; // e.g. "9:00 AM" (Eastern Time)
@@ -139,11 +144,49 @@ export function availableSlotsForDate(dateStr: string, availability: Availabilit
   return slots;
 }
 
+export interface EasternMoment {
+  date: string;    // YYYY-MM-DD
+  minutes: number; // minutes since midnight
+}
+
+function addDaysToDateString(dateStr: string, days: number): string {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const date = new Date(y, m - 1, d + days);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+// The earliest moment a consultation may be requested for: now plus the lead
+// time, rolled forward across midnight as needed.
+export function earliestBookableMoment(now: EasternMoment, leadMinutes = MIN_LEAD_MINUTES): EasternMoment {
+  let minutes = now.minutes + leadMinutes;
+  let date = now.date;
+  while (minutes >= 24 * 60) {
+    minutes -= 24 * 60;
+    date = addDaysToDateString(date, 1);
+  }
+  return { date, minutes };
+}
+
+// True when a slot on dateStr satisfies the lead time.
+export function isSlotBookable(dateStr: string, timeString: string, now: EasternMoment): boolean {
+  const slotMinutes = parseTimeToMinutes(timeString);
+  if (slotMinutes === null) return false;
+  const earliest = earliestBookableMoment(now);
+  if (dateStr < earliest.date) return false;
+  if (dateStr > earliest.date) return true;
+  return slotMinutes >= earliest.minutes;
+}
+
+// Working-hours slots for a date that also satisfy the lead time.
+export function bookableSlotsForDate(dateStr: string, availability: Availability, now: EasternMoment): string[] {
+  return availableSlotsForDate(dateStr, availability).filter(slot => isSlotBookable(dateStr, slot, now));
+}
+
 export function isDateSelectable(
   dateStr: string,
   availability: Availability,
-  todayEastern: string,
+  now: EasternMoment,
 ): boolean {
-  if (dateStr < todayEastern) return false;
-  return availableSlotsForDate(dateStr, availability).length > 0;
+  if (dateStr < now.date) return false;
+  return bookableSlotsForDate(dateStr, availability, now).length > 0;
 }

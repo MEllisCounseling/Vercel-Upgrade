@@ -14,6 +14,7 @@ interface BookingCalendarProps {
   onSelect: (date: string) => void;
   availability: Availability | null; // null while loading
   todayEastern: string; // YYYY-MM-DD in Eastern Time
+  nowMinutesEastern: number; // minutes since midnight, Eastern Time
   maxDaysAhead?: number;
 }
 
@@ -38,8 +39,10 @@ export default function BookingCalendar({
   onSelect,
   availability,
   todayEastern,
+  nowMinutesEastern,
   maxDaysAhead = 90,
 }: BookingCalendarProps) {
+  const now = { date: todayEastern, minutes: nowMinutesEastern };
   const [todayYear, todayMonth] = todayEastern.split('-').map(Number);
   const [view, setView] = useState({ year: todayYear, month: todayMonth - 1 });
 
@@ -111,7 +114,7 @@ export default function BookingCalendar({
           const inRange = dateStr >= todayEastern && dateStr <= maxDate;
           const isOoo = availability ? isDateOutOfOffice(dateStr, availability.outOfOffice) : false;
           const selectable = Boolean(
-            availability && inRange && isDateSelectable(dateStr, availability, todayEastern)
+            availability && inRange && isDateSelectable(dateStr, availability, now)
           );
           const isSelected = dateStr === selectedDate;
 

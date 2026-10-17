@@ -1,23 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAvailability } from '@/lib/availability-server';
 import {
-  availableSlotsForDate,
+  SESSION_FORMATS,
+  bookableSlotsForDate,
   dayNameForDate,
   isDateOutOfOffice,
+  isSlotBookable,
   nowInEastern,
 } from '@/lib/availability';
 
 // Returns an error message if the requested slot conflicts with Mike's
-// schedule or out-of-office dates; null if the slot is valid. Skips
-// validation (returns null) when availability came from the fallback.
+// schedule, out-of-office dates or the 12-hour lead time; null if the slot
+// is valid. The lead time is enforced even when availability came from the
+// fallback; the schedule checks are skipped in that case.
 async function validateRequestedSlot(preferredDate: string, preferredTime: string): Promise<string | null> {
+  const now = nowInEastern();
+  if (preferredDate < now.date) {
+    return 'The requested date is in the past.';
+  }
+  if (!isSlotBookable(preferredDate, preferredTime, now)) {
+    return 'Consultations must be requested at least 12 hours in advance. Please choose a later time or call the office.';
+  }
+
   const availability = await getAvailability();
   if (availability.fallback) return null;
 
-  const { date: todayEastern } = nowInEastern();
-  if (preferredDate < todayEastern) {
-    return 'The requested date is in the past.';
-  }
   if (isDateOutOfOffice(preferredDate, availability.outOfOffice)) {
     return 'The requested date falls on an out-of-office day.';
   }
@@ -26,8 +33,8 @@ async function validateRequestedSlot(preferredDate: string, preferredTime: strin
   if (!day?.available || !day.start || !day.end) {
     return 'The requested date is not a working day.';
   }
-  // Working hours minus any partial-day out-of-office windows
-  if (!availableSlotsForDate(preferredDate, availability).includes(preferredTime)) {
+  // Working hours minus any partial-day out-of-office windows and the lead time
+  if (!bookableSlotsForDate(preferredDate, availability, now).includes(preferredTime)) {
     return 'The requested time is not available that day.';
   }
   return null;
@@ -37,11 +44,15 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.json();
 
-    if (typeof formData.preferredDate === 'string' && typeof formData.preferredTime === 'string') {
-      const conflict = await validateRequestedSlot(formData.preferredDate, formData.preferredTime);
-      if (conflict) {
-        return NextResponse.json({ error: conflict }, { status: 400 });
-      }
+    if (typeof formData.preferredDate !== 'string' || typeof formData.preferredTime !== 'string') {
+      return NextResponse.json({ error: 'Please choose a date and time for your consultation.' }, { status: 400 });
+    }
+    const conflict = await validateRequestedSlot(formData.preferredDate, formData.preferredTime);
+    if (conflict) {
+      return NextResponse.json({ error: conflict }, { status: 400 });
+    }
+    if (!SESSION_FORMATS.includes(formData.sessionFormat)) {
+      return NextResponse.json({ error: 'Please select a session format preference.' }, { status: 400 });
     }
 
     // Debug logging

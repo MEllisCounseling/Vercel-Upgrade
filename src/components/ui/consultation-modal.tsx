@@ -6,9 +6,10 @@ import {
   Availability,
   DEFAULT_SCHEDULE,
   PRACTICE_TIMEZONE,
-  availableSlotsForDate,
+  bookableSlotsForDate,
   nowInEastern,
 } from '@/lib/availability';
+import { SITE } from '@/components/site';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -52,12 +53,13 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   const [availability, setAvailability] = useState<Availability | null>(null);
 
   // Set today's date and current time only on client side to avoid hydration
-  // mismatch. Both are computed in Eastern Time — Mike's schedule timezone.
+  // mismatch, and refresh them each time the form opens. Both are computed in
+  // Eastern Time, the practice's schedule timezone.
   useEffect(() => {
     const { date, minutes } = nowInEastern();
     setToday(date);
     setCurrentTimeMinutes(minutes);
-  }, []);
+  }, [isOpen]);
 
   // Load Mike's weekly hours and out-of-office dates when the modal opens
   useEffect(() => {
@@ -74,26 +76,10 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
   }, [isOpen, availability]);
 
   // Time slots for the selected date: the weekday's hours minus any
-  // out-of-office windows (supports partial-day out of office)
-  const timeSlots = formData.preferredDate && availability
-    ? availableSlotsForDate(formData.preferredDate, availability)
+  // out-of-office windows, and no sooner than the 12-hour lead time.
+  const timeSlots = formData.preferredDate && availability && today
+    ? bookableSlotsForDate(formData.preferredDate, availability, { date: today, minutes: currentTimeMinutes })
     : [];
-
-  // Disable same-day slots less than 2 hours from now (Eastern Time)
-  const isTimeDisabled = (timeString: string) => {
-    if (formData.preferredDate !== today) return false;
-
-    const [time, period] = timeString.split(' ');
-    const [hours, minutes] = time.split(':').map(Number);
-    let hour24 = hours;
-
-    if (period === 'PM' && hours !== 12) hour24 += 12;
-    if (period === 'AM' && hours === 12) hour24 = 0;
-
-    const timeMinutes = hour24 * 60 + minutes;
-
-    return timeMinutes < currentTimeMinutes + 120;
-  };
 
   const handleDateSelect = (date: string) => {
     setFormData(prev => ({ ...prev, preferredDate: date, preferredTime: '' }));
@@ -132,6 +118,10 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
     e.preventDefault();
     if (!formData.preferredDate || !formData.preferredTime) {
       setDateError('Please choose a date and time for your consultation.');
+      return;
+    }
+    if (!formData.sessionFormat) {
+      setDateError('Please select a session format preference.');
       return;
     }
     setDateError('');
@@ -395,6 +385,7 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                       onSelect={handleDateSelect}
                       availability={availability}
                       todayEastern={today}
+                      nowMinutesEastern={currentTimeMinutes}
                     />
                   ) : (
                     <div className="rounded-xl border border-sand bg-white p-3 text-sm text-ink-soft">Loading calendar…</div>
@@ -415,25 +406,44 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                       {formData.preferredDate ? 'Select preferred time' : 'Select a date first'}
                     </option>
                     {timeSlots.map(time => (
-                      <option
-                        key={time}
-                        value={time}
-                        disabled={isTimeDisabled(time)}
-                        style={isTimeDisabled(time) ? {color: '#9a9299'} : {}}
-                      >
-                        {time} {isTimeDisabled(time) ? '(unavailable)' : ''}
+                      <option key={time} value={time}>
+                        {time}
                       </option>
                     ))}
                   </select>
-                  {formData.preferredDate && (
-                    <p className="mt-1.5 text-xs text-ink-soft">
-                      Times shown are US Eastern Time (ET).
-                    </p>
-                  )}
+                  <p className="mt-1.5 text-xs text-ink-soft">
+                    Times shown are US Eastern Time (ET). Consultations can be requested at least 12 hours ahead.
+                  </p>
                   {dateError && (
                     <p className="mt-1.5 text-sm text-red-700">{dateError}</p>
                   )}
                 </div>
+              </div>
+
+              <p className="rounded-xl border border-sand bg-parchment px-4 py-3 text-sm text-ink-soft">
+                If you don&apos;t see a time that works, or you need to cancel or reschedule within 24
+                hours of your consultation, please call{' '}
+                <a href={SITE.phoneHref} className="font-semibold text-plum-ink underline decoration-sand underline-offset-4">
+                  {SITE.phoneDisplay}
+                </a>
+                .
+              </p>
+
+              <div>
+                <label htmlFor="sessionFormat" className="mb-1.5 block text-sm font-medium text-plum-ink">Session Format Preference *</label>
+                <select 
+                  id="sessionFormat" 
+                  name="sessionFormat" 
+                  value={formData.sessionFormat}
+                  onChange={handleInputChange}
+                  required
+                  className="field"
+                >
+                  <option value="">Select format preference</option>
+                  <option value="in-person">In-Person</option>
+                  <option value="telehealth">Telehealth/Video</option>
+                  <option value="either">Either In-Person or Telehealth</option>
+                </select>
               </div>
             </div>
 
@@ -511,22 +521,6 @@ export default function ConsultationModal({ isOpen, onClose }: ConsultationModal
                   placeholder="Street Address"
                   className="field"
                 />
-              </div>
-
-              <div>
-                <label htmlFor="sessionFormat" className="mb-1.5 block text-sm font-medium text-plum-ink">Session Format Preference</label>
-                <select 
-                  id="sessionFormat" 
-                  name="sessionFormat" 
-                  value={formData.sessionFormat}
-                  onChange={handleInputChange}
-                  className="field"
-                >
-                  <option value="">Select format preference</option>
-                  <option value="in-person">In-Person</option>
-                  <option value="telehealth">Telehealth/Video</option>
-                  <option value="either">Either In-Person or Telehealth</option>
-                </select>
               </div>
 
               <div>
